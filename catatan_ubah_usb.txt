@@ -1,0 +1,21 @@
+Fix USB Bekas Linux / Dual Boot Tidak Kebaca di Windows
+
+Kasus: USB bekas install Linux / dual boot muncul di BIOS tapi tidak kebaca di Windows karena sisa partisi Linux/EFI. USB tidak rusak.
+
+PERINGATAN: Semua data di USB akan terhapus.
+
+Langkah (Windows, jalankan CMD/Terminal sebagai Administrator):
+
+diskpart
+list disk
+(select USB berdasarkan ukuran, contoh 57GB, JANGAN disk internal)
+select disk 1
+clean
+create partition primary
+format fs=exfat quick
+assign
+exit
+
+Hasil: USB kembali normal, satu partisi utuh, filesystem exFAT, muncul di File Explorer.
+
+Catatan: clean tidak bisa undo, Windows tidak bisa format FAT32 >32GB, exFAT kompatibel Windows & Linux, FAT32 >32GB pakai Rufus, multiboot ISO disarankan Ventoy.
