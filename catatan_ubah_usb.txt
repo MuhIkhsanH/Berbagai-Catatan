@@ -12,6 +12,8 @@ list disk
 select disk 1
 clean
 create partition primary
+list partition
+select partition 1
 format fs=exfat quick
 assign
 exit
