@@ -1,0 +1,118 @@
+penginstalan:
+sudo apt install nodejs npm default-jdk -y
+
+penginstallan:
+sudo npm install -g cordova
+
+pembuatan:
+cordova create gps_projek com.ecchan.grabber EcchanSensor
+
+ke lokasi:
+cd gps_projek
+
+konfig:
+cordova platform add android
+cordova plugin add cordova-plugin-geolocation
+cordova plugin add cordova-plugin-battery-status
+
+pembuatan file:
+nano www/js/index.js
+
+
+
+build:
+cordova build android
+
+
+setting path:
+export ANDROID_HOME=/usr/lib/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+fix path: entah kenapa eror jir
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+install android sdk:
+sudo apt install android-sdk -y
+
+
+setting path lagi:
+export ANDROID_HOME=/usr/lib/android-sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+download mesin utama:
+wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+
+
+1. Ekstrak dan Rakit Struktur Folder
+# Buat folder pusat SDK
+mkdir -p ~/android-sdk/cmdline-tools
+
+# Ekstrak filenya
+unzip commandlinetools-linux-11076708_latest.zip
+
+# Tata sesuai kemauan Google (harus masuk folder 'latest')
+mv cmdline-tools latest
+mv latest ~/android-sdk/cmdline-tools/
+
+
+2. Setting PATH (Versi Fish Shell):
+set -x ANDROID_HOME $HOME/android-sdk
+set -Ua fish_user_paths $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools
+
+terima lisensi:
+yes | sdkmanager --licenses
+
+download bahan utama:
+sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2"
+
+pergi ke lokasi dan coba lagi:
+cd ~/Downloads/gps_projek
+cordova build android
+
+
+(FAILED JAVA TERLALU CANGGIH KATANYA)
+
+coba yang lain:
+sudo apt install openjdk-17-jdk -y
+
+apt search openjdk-17
+
+(gak muncul apa apa)
+
+COBA DOWNLOAD PAKAI WGET:
+cd ~/Downloads
+wget https://download.java.net/java/GA/jdk17.0.2/dfd4a71d61ef4c2962576418305931a9/8/GPL/openjdk-17.0.2_linux-x64_bin.tar.gz
+
+(GAGAL LAGI JIR COBA PAKAI ADOPTIUM)
+wget https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.10%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.10_7.tar.gz
+
+EXTRACT FILE
+tar -xvf OpenJDK17U-jdk_x64_linux_hotspot_17.0.10_7.tar.gz
+
+
+CEK NAMA FOLDER
+ecchan@ecchan ~/Downloads> ls -d jdk*
+jdk-17.0.10+7/
+
+
+PINDAH OTAKNYA SI JAVA (JAWA JIR)
+set -x JAVA_HOME $HOME/Downloads/jdk-17.0.10+7
+set -x PATH $JAVA_HOME/bin $PATH
+
+CEK JAWA:
+ecchan@ecchan ~/Downloads> java -version
+openjdk version "17.0.10" 2024-01-16
+OpenJDK Runtime Environment Temurin-17.0.10+7 (build 17.0.10+7)
+OpenJDK 64-Bit Server VM Temurin-17.0.10+7 (build 17.0.10+7, mixed mode, sharing)
+ecchan@ecchan ~/Downloads> 
+
+coba lagi:
+cordova build android
+
+(gagal)
+
+cek lagi:
+sdkmanager "build-tools;36.0.0" "platforms;android-36"
+ sdkmanager --list_installed
+
+(work)
